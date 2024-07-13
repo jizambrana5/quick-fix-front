@@ -1,6 +1,10 @@
+<!-- App.svelte -->
+
 <script>
   import { Router, Route } from 'svelte-routing';
-  import routes from './routes'; // Asegúrate de que este archivo tenga las rutas definidas correctamente
+  import routes from './routes';
+
+  console.log('Routes:', routes); // Aquí para verificar las rutas importadas
 </script>
 
 <main>

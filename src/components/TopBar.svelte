@@ -1,10 +1,18 @@
+<!-- TopBar.svelte -->
+
 <script>
-    import { goBack } from 'svelte-spa-router'; // Importamos la función goBack para manejar el botón de retroceso
+    import { navigate } from 'svelte-routing';
+  
+    const handleBackClick = () => {
+      navigate('/'); // Redirige al inicio
+    };
   </script>
   
   <header class="top-bar">
     <div class="content">
-      <button on:click={goBack}>&larr; Atrás</button>
+      <button class="back-button" on:click={handleBackClick}>
+        <span class="back-arrow">&larr;</span> {""}
+      </button>
     </div>
   </header>
   
@@ -16,9 +24,9 @@
       position: fixed;
       top: 0;
       left: 0;
-      text-align: center;
-      padding: 10px 0;
-      z-index: 1000; /* Aseguramos que esté sobre otros elementos */
+      text-align: left; /* Alineación a la izquierda */
+      padding: 10px;
+      z-index: 10; /* Z-index reducido */
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
     }
   
@@ -27,15 +35,22 @@
       margin: 0 auto;
     }
   
-    button {
+    .back-button {
       background-color: transparent;
       border: none;
-      color: white;
-      font-size: 16px;
+      color: transparent; /* Texto transparente */
+      font-size: 32px; /* Tamaño de la flecha */
       cursor: pointer;
+      padding: 0; /* Elimina el padding si es necesario */
     }
   
-    button:hover {
+    .back-arrow {
+      color: white; /* Color de la flecha */
+      font-weight: bold; /* Asegura que la flecha sea más ancha */
+      transform: scaleX(0.7); /* Reducción de la anchura */
+    }
+  
+    .back-button:hover .back-arrow {
       text-decoration: underline;
     }
   </style>
