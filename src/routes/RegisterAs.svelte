@@ -1,7 +1,11 @@
 <script>
     import StyledContainer from '../components/StyledContainer.svelte';
     import Footer from '../components/Footer.svelte';
+    import TopBar from '../components/TopBar.svelte';
   </script>
+
+<TopBar />
+
 
   <StyledContainer>
     <h1>Registrarse como</h1>
