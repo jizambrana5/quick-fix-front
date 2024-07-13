@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "module": "esnext",
+      "target": "es2017",
+      "lib": ["dom", "es2017"],
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "resolveJsonModule": true,
+      "jsx": "preserve",
+      "moduleResolution": "node",
+      "isolatedModules": true,
+      "noEmit": true,
+      "strict": true,
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"]
+      }
+    },
+    "include": ["src/**/*.svelte", "src/**/*.ts"],
+    "exclude": ["node_modules", "public"]
+  }
+  
