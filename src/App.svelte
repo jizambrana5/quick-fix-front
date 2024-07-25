@@ -12,6 +12,7 @@
     <Route path="/" component={routes['/']} />
     <Route path="/login" component={routes['/login']} />
     <Route path="/register-as" component={routes['/register-as']} />
+    <Route path="/register-as-user" component={routes['/register-as-user']} />
   </Router>
 </main>
 
