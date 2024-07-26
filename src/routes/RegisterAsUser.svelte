@@ -1,61 +1,59 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import axios from 'axios';
+  import { registerProfessional } from '../repository/professionalRepository';
   import StyledContainer from '../components/StyledContainer.svelte';
   import Footer from '../components/Footer.svelte';
   import TopBar from '../components/TopBar.svelte';
-
+  
+  import '../styles/formStyles.css'; // Importa los estilos comunes
+  
   let username = '';
-  let email = '';
-  let password = '';
   let name = '';
   let last_name = '';
   let phone = '';
   let address = '';
+  let email = '';
+  let password = '';
+  let profession = '';
+  let department = '';
+  let district = '';
+  
   const dispatch = createEventDispatcher();
-
+  
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/user/', {
+      const response = await registerProfessional({
         username,
-        email,
-        password,
         name,
         last_name,
         phone,
-        address
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
+        address,
+        email,
+        password,
+        profession,
+        location: {
+          department,
+          district
         }
       });
-      console.log('User registered successfully:', response.data);
-      dispatch('success', response.data);
+      console.log('Professional registered successfully:', response);
+      dispatch('success', response);
     } catch (error) {
-      console.error('Error registering user:', error);
-      dispatch('error', error.response ? error.response.data : error.message);
+      console.error('Error registering professional:', error);
+      dispatch('error', error.message);
     }
   };
 </script>
-
-<TopBar />
+  
+<TopBar title="Registro de Profesional" />
 <StyledContainer>
-  <h1>Registro de Usuario</h1>
-  <form on:submit|preventDefault={handleSubmit}>
+  <form on:submit|preventDefault={handleSubmit} style="padding-top: 140px; padding-bottom: 10px;">
     <label>
       Username:
       <input type="text" bind:value={username} required />
     </label>
     <label>
-      Email:
-      <input type="email" bind:value={email} required />
-    </label>
-    <label>
-      Password:
-      <input type="password" bind:value={password} required />
-    </label>
-    <label>
-      First Name:
+      Name:
       <input type="text" bind:value={name} required />
     </label>
     <label>
@@ -70,45 +68,28 @@
       Address:
       <input type="text" bind:value={address} required />
     </label>
+    <label>
+      Email:
+      <input type="email" bind:value={email} required />
+    </label>
+    <label>
+      Password:
+      <input type="password" bind:value={password} required />
+    </label>
+    <label>
+      Profession:
+      <input type="text" bind:value={profession} required />
+    </label>
+    <label>
+      Department:
+      <input type="text" bind:value={department} required />
+    </label>
+    <label>
+      District:
+      <input type="text" bind:value={district} required />
+    </label>
     <button type="submit">Register</button>
   </form>
 </StyledContainer>
-
+  
 <Footer />
-
-<style>
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 400px;
-    margin: auto;
-  }
-
-  label {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-  }
-
-  input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  button {
-    padding: 0.5rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #45a049;
-  }
-</style>

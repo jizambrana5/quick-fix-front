@@ -13,6 +13,7 @@
     <Route path="/login" component={routes['/login']} />
     <Route path="/register-as" component={routes['/register-as']} />
     <Route path="/register-as-user" component={routes['/register-as-user']} />
+    <Route path="/register-as-professional" component={routes['/register-as-professional']} />
   </Router>
 </main>
 
