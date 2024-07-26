@@ -11,6 +11,8 @@
   <Router>
     <Route path="/" component={routes['/']} />
     <Route path="/login" component={routes['/login']} />
+    <Route path="/login-as-user" component={routes['/login-as-user']} />
+    <Route path="/login-as-professional" component={routes['/login-as-professional']} />
     <Route path="/register-as" component={routes['/register-as']} />
     <Route path="/register-as-user" component={routes['/register-as-user']} />
     <Route path="/register-as-professional" component={routes['/register-as-professional']} />

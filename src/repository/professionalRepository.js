@@ -14,3 +14,22 @@ export const registerProfessional = async (professionalData) => {
     throw new Error(error.response ? error.response.data : error.message);
   }
 };
+
+//Mock la función loginProfessional
+export const loginProfessional = async (loginData) => {
+  // Simulación de respuesta de éxito
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        data: {
+          message: 'Login successful',
+          professional: {
+            email: loginData.email,
+          },
+        },
+      });
+    }, 1000); // Simula un retraso de 1 segundo
+  });
+
+  // return Promise.reject(new Error('Mock error'));
+};

@@ -16,3 +16,23 @@ export const registerUser = async (userData) => {
   }
 };
 
+
+// Mockea la función loginUser
+export const loginUser = async (loginData) => {
+  // Simulación de respuesta de éxito
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        data: {
+          message: 'Login successful',
+          user: {
+            email: loginData.email,
+          },
+        },
+      });
+    }, 1000); // Simula un retraso de 1 segundo
+  });
+
+  // Si quieres simular un error, puedes lanzar una excepción
+  // return Promise.reject(new Error('Mock error'));
+};
