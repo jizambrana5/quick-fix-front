@@ -6,6 +6,8 @@ form {
   gap: 1rem;
   max-width: 400px;
   margin: auto;
+  padding-top: 60px; /* Ajusta según sea necesario */
+  padding-bottom: 40px; /* Ajusta según sea necesario */
 }
 
 label {
@@ -14,7 +16,7 @@ label {
   font-weight: bold;
 }
 
-input {
+input, select {
   padding: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ccc;
