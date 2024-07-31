@@ -1,13 +1,15 @@
 <script>
   export let backButton = false;
+  export let title = ''; // Si necesitas un título en el TopBar
+
+  import BackButton from './BackButton.svelte';
 </script>
 
-<div class="topbar flex items-center justify-start">
+<div class="topbar flex items-center justify-between">
   {#if backButton}
-    <button on:click={() => window.history.back()} class="text-white">
-      &larr; Atrás
-    </button>
+    <BackButton color="#FFFFFF" size="24" />
   {/if}
+  <span class="title">{title}</span>
 </div>
 
 <style>
@@ -22,12 +24,11 @@
     top: 0;
     z-index: 10;
   }
-  
-  .topbar button {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 16px; /* Reducir tamaño de fuente */
-    cursor: pointer;
+
+  .title {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    font-weight: bold;
   }
 </style>

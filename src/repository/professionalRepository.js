@@ -33,3 +33,13 @@ export const loginProfessional = async (loginData) => {
 
   // return Promise.reject(new Error('Mock error'));
 };
+
+
+export const fetchProfessional = async (professionalId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/professional/${professionalId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data : error.message);
+  }
+};
