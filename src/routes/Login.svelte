@@ -1,30 +1,22 @@
 <script>
-  import { navigate } from 'svelte-routing';  // Importa la función navigate
-  import StyledContainer from '../components/StyledContainer.svelte';
-  import Footer from '../components/Footer.svelte';
+  import { Link } from 'svelte-routing';
   import TopBar from '../components/TopBar.svelte';
-
-  // Función para redirigir a la vista de inicio de sesión de usuario
-  const navigateToLoginAsUser = () => {
-    navigate('login-as-user'); // Ruta para el inicio de sesión de usuario
-  };
-
-  // Función para redirigir a la vista de inicio de sesión de profesional
-  const navigateToLoginAsProfessional = () => {
-    navigate('login-as-professional'); // Ruta para el inicio de sesión de profesional
-  };
+  import Footer from '../components/Footer.svelte';
 </script>
 
-<TopBar />
+<svelte:head>
+  <title>Iniciar Sesión</title>
+</svelte:head>
 
-<StyledContainer>
-  <h1>Login</h1>
-  <button on:click={navigateToLoginAsUser}>Iniciar sesión como Usuario</button>
-  <button on:click={navigateToLoginAsProfessional}>Iniciar sesión como Profesional</button>
-</StyledContainer>
-
+<TopBar backButton={true} />
+<main class="flex flex-col items-center justify-center flex-1 px-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md text-center">
+    <h1 class="text-2xl font-bold mb-4 text-green-700">Iniciar Sesión</h1>
+    <p class="mb-4 text-gray-700">Selecciona una opción para continuar</p>
+    <div class="flex flex-col gap-4">
+      <Link to="/login-as-user" class="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-center">Iniciar Sesión como Usuario</Link>
+      <Link to="/login-as-professional" class="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 text-center">Iniciar Sesión como Profesional</Link>
+    </div>
+  </div>
+</main>
 <Footer />
-
-<style>
-  /* Estilos específicos para Login si es necesario */
-</style>
