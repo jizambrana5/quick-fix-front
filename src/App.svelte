@@ -1,13 +1,13 @@
-<!-- App.svelte -->
-
 <script>
   import { Router, Route } from 'svelte-routing';
   import routes from './routes';
+  import './styles/tailwind.css'; // Importar estilos de Tailwind CSS
+  import './styles/global.css';
 
   console.log('Routes:', routes); // Aquí para verificar las rutas importadas
 </script>
 
-<main>
+<main class="min-h-screen flex flex-col">
   <Router>
     <Route path="/" component={routes['/']} />
     <Route path="/login" component={routes['/login']} />
@@ -16,9 +16,6 @@
     <Route path="/register-as" component={routes['/register-as']} />
     <Route path="/register-as-user" component={routes['/register-as-user']} />
     <Route path="/register-as-professional" component={routes['/register-as-professional']} />
+    <Route path="/user-home" component={routes['/user-home']} />
   </Router>
 </main>
-
-<style>
-  /* Estilos para tu aplicación, si es necesario */
-</style>

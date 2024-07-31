@@ -1,69 +1,33 @@
-<!-- TopBar.svelte -->
-
 <script>
-  import { navigate } from 'svelte-routing';
-  
-  export let title = '';
-  
-  const handleBackClick = () => {
-    navigate('/'); // Redirige al inicio
-  };
+  export let backButton = false;
 </script>
 
-<header class="top-bar">
-  <div class="content">
-    <button class="back-button" on:click={handleBackClick}>
-      <span class="back-arrow">&larr;</span>
+<div class="topbar flex items-center justify-start">
+  {#if backButton}
+    <button on:click={() => window.history.back()} class="text-white">
+      &larr; Atrás
     </button>
-    <h1>{title}</h1>
-  </div>
-</header>
+  {/if}
+</div>
 
 <style>
-  .top-bar {
-    background-color: #8BC34A; /* Color verde */
-    color: white;
+  .topbar {
     width: 100%;
+    background-color: #8db600;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
-    left: 0;
-    padding: 10px;
-    z-index: 10; /* Z-index para sobreposición */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    z-index: 10;
   }
-
-  .content {
-    display: flex;
-    align-items: center; /* Centra verticalmente el contenido */
-    justify-content: center; /* Centra el título horizontalmente */
-    position: relative; /* Necesario para posicionar el título */
-    height: 100%;
-    padding-left: 40px; /* Asegura espacio para el botón de regreso */
-  }
-
-  .back-button {
-    background-color: transparent;
+  
+  .topbar button {
+    background: none;
     border: none;
-    color: white; /* Color de la flecha */
-    font-size: 32px; /* Tamaño de la flecha */
+    color: white;
+    font-size: 16px; /* Reducir tamaño de fuente */
     cursor: pointer;
-    position: absolute;
-    left: 10px; /* Espacio a la izquierda */
-  }
-
-  .back-arrow {
-    transform: scaleX(0.7); /* Reducción de la anchura */
-  }
-
-  .back-button:hover .back-arrow {
-    text-decoration: underline;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    text-align: center;
-    flex-grow: 1; /* Ocupa el espacio restante */
-    color: white; /* Asegura que el texto sea visible */
   }
 </style>

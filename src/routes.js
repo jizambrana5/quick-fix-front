@@ -5,6 +5,7 @@ import LoginAsProfessional from './routes/LoginAsProfessional.svelte';
 import RegisterAs from './routes/RegisterAs.svelte';
 import RegisterAsUser from './routes/RegisterAsUser.svelte';
 import RegisterAsProfessional from './routes/RegisterAsProfessional.svelte';
+import UserHome from './routes/UserHome.svelte';
 
 const routes = {
   '/': Home,
@@ -14,6 +15,7 @@ const routes = {
   '/register-as': RegisterAs,
   '/register-as-user': RegisterAsUser,
   '/register-as-professional': RegisterAsProfessional,
+  '/user-home': UserHome,
 };
 
 export default routes;
