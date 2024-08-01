@@ -7,6 +7,9 @@ import RegisterAsUser from './routes/RegisterAsUser.svelte';
 import RegisterAsProfessional from './routes/RegisterAsProfessional.svelte';
 import UserHome from './routes/UserHome.svelte';
 import OrderDetail from './routes/OrderDetail.svelte';
+import CreateOrderStep1 from './routes/CreateOrderStep1.svelte';
+import CreateOrderStep2 from './routes/CreateOrderStep2.svelte';
+
 
 const routes = {
   '/': Home,
@@ -18,6 +21,8 @@ const routes = {
   '/register-as-professional': RegisterAsProfessional,
   '/user-home': UserHome,
   '/order/:id': OrderDetail,
+  '/create-order-step1': CreateOrderStep1,
+  '/create-order-step2': CreateOrderStep2,
 };
 
 export default routes;

@@ -48,7 +48,7 @@
       <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md mb-4">
         <div class="flex justify-between items-center">
           <h2 class="text-xl font-bold text-green-700">Órdenes</h2>
-          <Link to="/create-order" class="text-white bg-green-600 hover:bg-green-700 font-medium py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Crear Orden</Link>
+          <Link to="/create-order-step1" class="text-white bg-green-600 hover:bg-green-700 font-medium py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Crear Orden</Link>
         </div>
         {#if orders.length > 0}
           <ul class="mt-4">
