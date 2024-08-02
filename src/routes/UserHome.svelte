@@ -22,6 +22,16 @@
       loading = false;
     }
   });
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()+3).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
 </script>
 
 <TopBar backButton={true} />
@@ -59,7 +69,7 @@
                   <p><strong>Dirección:</strong> {order.address}</p>
                   <p><strong>Departamento:</strong> {order.location.department}</p>
                   <p><strong>Distrito:</strong> {order.location.district}</p>
-                  <p><strong>Fecha:</strong> {new Date(order.dates.schedule_to).toLocaleString()}</p>
+                  <p><strong>Fecha:</strong> {formatDate(order.dates.schedule_to)}</p>
                   <OrderStatus status={order.status} />
                 </Link>
               </li>
