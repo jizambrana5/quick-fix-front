@@ -4,6 +4,8 @@
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
   import CustomSelect from '../components/CustomSelect.svelte';
+  import Notification from '../components/Notification.svelte';
+  import { navigate } from 'svelte-routing';
 
   let username = '';
   let name = '';
@@ -15,10 +17,14 @@
   let profession = '';
   let department = '';
   let district = '';
+  let registration_number = '';
 
   let departments = [];
   let districts = [];
   const professions = ["Plomero", "Electricista", "Gasista"];
+
+  let successMessage = '';
+  let errorMessage = '';
 
   const dispatch = createEventDispatcher();
 
@@ -52,11 +58,17 @@
         location: {
           department,
           district
-        }
+        },
+        registration_number
       });
+      successMessage = 'Professional registered successfully';
       console.log('Professional registered successfully:', response);
       dispatch('success', response);
+      setTimeout(() => {
+        navigate('/');
+      }, 3000); // Navegar después de mostrar el mensaje de éxito
     } catch (error) {
+      errorMessage = error.message || 'Error registering professional';
       console.error('Error registering professional:', error);
       dispatch('error', error.message);
     }
@@ -85,16 +97,8 @@
         <input type="tel" id="phone" bind:value={phone} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
       </div>
       <div class="mb-4">
-        <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
-        <input type="text" id="address" bind:value={address} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
-      </div>
-      <div class="mb-4">
         <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
         <input type="email" id="email" bind:value={email} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
-      </div>
-      <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-        <input type="password" id="password" bind:value={password} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
       </div>
       <div class="mb-4">
         <CustomSelect
@@ -103,6 +107,14 @@
           options={professions}
           placeholder="Selecciona una profesión"
         />
+      </div>
+      <div class="mb-4">
+        <label for="registration_number" class="block text-sm font-medium text-gray-700">Matrícula</label>
+        <input type="text" id="registration_number" bind:value={registration_number} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
+      </div>
+      <div class="mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
+        <input type="text" id="address" bind:value={address} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
       </div>
       <div class="mb-4">
         <CustomSelect
@@ -121,8 +133,18 @@
           placeholder="Selecciona un distrito"
         />
       </div>
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+        <input type="password" id="password" bind:value={password} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
+      </div>
       <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Registrar</button>
     </form>
+    {#if successMessage}
+      <Notification message={successMessage} type="success" />
+    {/if}
+    {#if errorMessage}
+      <Notification message={errorMessage} type="error" />
+    {/if}
   </div>
 </main>
 <Footer />
