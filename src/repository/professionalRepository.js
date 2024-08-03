@@ -34,12 +34,20 @@ export const loginProfessional = async (loginData) => {
   // return Promise.reject(new Error('Mock error'));
 };
 
-
 export const fetchProfessional = async (professionalId) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/professional/${professionalId}`);
     return response.data;
   } catch (error) {
-    throw new Error(error.response ? error.response.data : error.message);
+    throw new Error(error.response?.data?.message || 'Error fetching professional details');
+  }
+};
+
+export const fetchProfessionalOrders = async (professionalId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/order/professional/${professionalId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error fetching professional orders');
   }
 };
