@@ -1,14 +1,18 @@
 <script>
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
+  import { navigate } from 'svelte-routing';
 
   let email = '';
   let password = '';
 
   const handleLogin = () => {
-    // Aquí puedes manejar la lógica de inicio de sesión
-    console.log('Email:', email);
-    console.log('Password:', password);
+    // Lógica de inicio de sesión
+    if (email === 'jose@gmail.com') {
+      navigate('/user-home');
+    } else {
+      alert('Credenciales incorrectas');
+    }
   };
 </script>
 
@@ -34,3 +38,16 @@
   </div>
 </main>
 <Footer />
+
+<style>
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center;
+    padding-top: 6rem;
+    padding-bottom: 70px;
+    overflow-y: auto;
+  }
+</style>
