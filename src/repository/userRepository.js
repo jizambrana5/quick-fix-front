@@ -37,20 +37,20 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const fetchUser = async (userId) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/user/${userId}`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response ? error.response.data : error.message);
-  }
-};
-
 export const fetchUserOrders = async (userId) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/order/user/${userId}`);
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
+  }
+};
+
+export const fetchUser = async (userId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error fetching user details');
   }
 };

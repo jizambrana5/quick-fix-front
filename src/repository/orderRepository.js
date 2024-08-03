@@ -20,24 +20,6 @@ export const fetchOrder = async (orderId) => {
   }
 };
 
-export const cancelOrder = async (orderId) => {
-  try {
-    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/cancel`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error canceling order');
-  }
-};
-
-export const completeOrder = async (orderId) => {
-  try {
-    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/complete`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error completing order');
-  }
-};
-
 export const fetchProfessionalsByLocationAndProfession = async (department, district, profession) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/professionals/${department}/${district}/${profession}`);
@@ -67,5 +49,32 @@ export const createOrder = async (orderData) => {
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error creating order');
+  }
+};
+
+export const acceptOrder = async (orderId) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/accept`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error accepting order');
+  }
+};
+
+export const cancelOrder = async (orderId) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/cancel`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error canceling order');
+  }
+};
+
+export const completeOrder = async (orderId) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/complete`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error completing order');
   }
 };
