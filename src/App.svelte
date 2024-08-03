@@ -18,5 +18,7 @@
     <Route path="/register-as-professional" component={routes['/register-as-professional']} />
     <Route path="/user-home" component={routes['/user-home']} />
     <Route path="/order/:id" component={routes['/order/:id']} />
+    <Route path="/create-order-step1" component={routes['/create-order-step1']} />
+    <Route path="/create-order-step2" component={routes['/create-order-step2']} />
   </Router>
 </main>

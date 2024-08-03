@@ -59,6 +59,16 @@
       completing = false;
     }
   };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours() + 3).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
 </script>
 
 <TopBar backButton={true} />
@@ -80,7 +90,8 @@
         <p><strong>Dirección:</strong> {order.address}</p>
         <p><strong>Departamento:</strong> {order.location.department}</p>
         <p><strong>Distrito:</strong> {order.location.district}</p>
-        <p><strong>Fecha:</strong> {new Date(order.dates.schedule_to).toLocaleString()}</p>
+        <p><strong>Fecha:</strong> {formatDate(order.dates.schedule_to)}</p>
+        <p><strong>Descripción:</strong> {order.description}</p>
         <OrderStatus status={order.status} />
 
         {#if order.professional_id}
@@ -89,6 +100,7 @@
           <p><strong>Email:</strong> {professional.email}</p>
           <p><strong>Teléfono:</strong> {professional.phone}</p>
           <p><strong>Dirección:</strong> {professional.address}</p>
+          <p><strong>Matrícula:</strong> {professional.registration_number}</p>
         {/if}
 
         {#if order.status === 'pending'}
@@ -115,8 +127,12 @@
   {/if}
 </main>
 
-<Notification message={successMessage} type="success" />
-<Notification message={error} type="error" />
+{#if successMessage}
+  <Notification message={successMessage} type="success" />
+{/if}
+{#if error && !loading}
+  <Notification message={error} type="error" />
+{/if}
 
 <Footer />
 

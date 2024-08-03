@@ -22,6 +22,16 @@
       loading = false;
     }
   });
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours() + 3).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
 </script>
 
 <TopBar backButton={true} />
@@ -48,9 +58,9 @@
       <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md mb-4">
         <div class="flex justify-between items-center">
           <h2 class="text-xl font-bold text-green-700">Órdenes</h2>
-          <Link to="/create-order" class="text-white bg-green-600 hover:bg-green-700 font-medium py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Crear Orden</Link>
+          <Link to="/create-order-step1" class="text-white bg-green-600 hover:bg-green-700 font-medium py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Crear Orden</Link>
         </div>
-        {#if orders.length > 0}
+        {#if orders != null && orders.length > 0}
           <ul class="mt-4">
             {#each orders as order}
               <li class="mb-2 p-2 border border-gray-200 rounded-md shadow-sm">
@@ -59,7 +69,8 @@
                   <p><strong>Dirección:</strong> {order.address}</p>
                   <p><strong>Departamento:</strong> {order.location.department}</p>
                   <p><strong>Distrito:</strong> {order.location.district}</p>
-                  <p><strong>Fecha:</strong> {new Date(order.dates.schedule_to).toLocaleString()}</p>
+                  <p><strong>Fecha:</strong> {formatDate(order.dates.schedule_to)}</p>
+                  <p><strong>Descripción:</strong> {order.description}</p>
                   <OrderStatus status={order.status} />
                 </Link>
               </li>
