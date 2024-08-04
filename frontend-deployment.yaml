@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quick-fix-front
+  namespace: quick-fix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quick-fix-front
+  template:
+    metadata:
+      labels:
+        app: quick-fix-front
+    spec:
+      containers:
+        - name: quick-fix-front
+          image: gcr.io/quick-fix-431422/quick-fix-front
+          ports:
+            - containerPort: 80
+          env:
+            - name: VITE_API_BASE_URL
+              value: "http://quick-fix-back:8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quick-fix-front
+  namespace: quick-fix
+spec:
+  selector:
+    app: quick-fix-front
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
