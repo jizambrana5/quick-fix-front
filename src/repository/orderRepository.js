@@ -1,10 +1,16 @@
 import axios from 'axios';
+import { getToken } from '../auth';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 export const fetchUserOrders = async (userId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/order/user/${userId}`);
+    const token = getToken();
+    const response = await axios.get(`${API_BASE_URL}/order/user/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error fetching user orders');
@@ -13,7 +19,12 @@ export const fetchUserOrders = async (userId) => {
 
 export const fetchOrder = async (orderId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/order/${orderId}`);
+    const token = getToken();
+    const response = await axios.get(`${API_BASE_URL}/order/${orderId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error fetching order details');
@@ -22,7 +33,12 @@ export const fetchOrder = async (orderId) => {
 
 export const fetchProfessionalsByLocationAndProfession = async (department, district, profession) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/professionals/${department}/${district}/${profession}`);
+    const token = getToken();
+    const response = await axios.get(`${API_BASE_URL}/professionals/${department}/${district}/${profession}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error fetching professionals');
@@ -31,8 +47,13 @@ export const fetchProfessionalsByLocationAndProfession = async (department, dist
 
 export const fetchOrdersByProfessionalAndDate = async (professionalId, date) => {
   try {
+    const token = getToken();
     const formattedDate = new Date(date).toISOString().split('T')[0]; // Asegurarse de que la fecha esté en formato YYYY-MM-DD
-    const response = await axios.get(`${API_BASE_URL}/order/professional/${professionalId}/day/${formattedDate}`);
+    const response = await axios.get(`${API_BASE_URL}/order/professional/${professionalId}/day/${formattedDate}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
     return response.data || []; // Devolver un array vacío si la respuesta es null
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error fetching orders for professional and date');
@@ -41,9 +62,11 @@ export const fetchOrdersByProfessionalAndDate = async (professionalId, date) => 
 
 export const createOrder = async (orderData) => {
   try {
+    const token = getToken();
     const response = await axios.post(`${API_BASE_URL}/order`, orderData, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
     });
     return response.data;
@@ -54,7 +77,17 @@ export const createOrder = async (orderData) => {
 
 export const acceptOrder = async (orderId) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/accept`);
+    const token = getToken();
+    const response = await axios.put(
+      `${API_BASE_URL}/order/${orderId}/accept`,
+      {}, // Este es el cuerpo de la solicitud, en este caso vacío
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error accepting order');
@@ -63,7 +96,17 @@ export const acceptOrder = async (orderId) => {
 
 export const cancelOrder = async (orderId) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/cancel`);
+    const token = getToken();
+    const response = await axios.put(
+      `${API_BASE_URL}/order/${orderId}/cancel`,
+      {}, // Este es el cuerpo de la solicitud, en este caso vacío
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error canceling order');
@@ -72,7 +115,16 @@ export const cancelOrder = async (orderId) => {
 
 export const completeOrder = async (orderId) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/order/${orderId}/complete`);
+    const token = getToken();
+    const response = await axios.put(
+      `${API_BASE_URL}/order/${orderId}/complete`, 
+      {}, 
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error completing order');

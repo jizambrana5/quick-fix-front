@@ -34,7 +34,7 @@
     };
   </script>
   
-  <TopBar backButton={true} />
+  <TopBar backButton={true} showLogout={true}/>
   
   <main class="flex flex-col items-center justify-start flex-1 px-4 pt-24" style="padding-top: 6rem;">
     {#if loading}

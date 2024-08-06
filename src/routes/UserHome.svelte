@@ -6,16 +6,16 @@
   import { Link } from 'svelte-routing';
   import OrderStatus from '../components/OrderStatus.svelte';
   import { translateOrderStatus } from '../utils/statusMapping';
+  import { getUser } from '../auth'; // Importar la función getUser
 
-  let user = {};
+  let user = getUser(); // Obtener el usuario del almacenamiento local
   let orders = [];
   let loading = true;
   let error = '';
 
   onMount(async () => {
     try {
-      user = await fetchUser(1); // ID de usuario mockeado
-      orders = await fetchUserOrders(1); // ID de usuario mockeado
+      orders = await fetchUserOrders(user.id);
       loading = false;
     } catch (err) {
       error = err.message;
@@ -34,7 +34,7 @@
   };
 </script>
 
-<TopBar backButton={true} />
+<TopBar backButton={true} showLogout={true} />
 
 <main class="flex flex-col items-center justify-start flex-1 px-4 pt-24" style="padding-top: 6rem;">
   {#if loading}

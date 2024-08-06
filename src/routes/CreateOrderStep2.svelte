@@ -1,12 +1,14 @@
 <script>
   import { onMount } from 'svelte';
   import { navigate } from 'svelte-routing';
+  import { getUser } from '../auth';
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
   import { fetchProfessionalsByLocationAndProfession, fetchOrdersByProfessionalAndDate, createOrder } from '../repository/orderRepository';
   import Notification from '../components/Notification.svelte';
   import Flatpickr from 'svelte-flatpickr';
   import 'flatpickr/dist/flatpickr.css';
+    
 
   let professionals = [];
   let selectedProfessional = '';
@@ -78,7 +80,7 @@
       const scheduleTo = `${year}-${month}-${day} ${selectedTime}`;
 
       await createOrder({
-        user_id: 1, // Mockeado
+        user_id: getUser().id,
         professional_id: selectedProfessional,
         schedule_to: scheduleTo,
         address,
@@ -99,7 +101,8 @@
   };
 </script>
 
-<TopBar backButton={true} />
+<TopBar backButton={true} showLogout={true} />
+
 <main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 6rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Crear Orden - Paso 2</h1>

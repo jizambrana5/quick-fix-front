@@ -1,8 +1,17 @@
+<!-- src/components/TopBar.svelte -->
 <script>
-  export let backButton = false;
-  export let title = ''; // Si necesitas un título en el TopBar
+  import { navigate } from 'svelte-routing';
+  import BackButton from './BackButton.svelte'; // Importar el componente BackButton
 
-  import BackButton from './BackButton.svelte';
+  export let backButton = false;
+  export let title = '';
+  export let showLogout = false;
+
+  function handleLogout() {
+    localStorage.removeItem('authToken');
+    navigate('/login', { replace: true });
+    location.reload(); // Recargar la página para asegurarnos de que el estado se actualice
+  }
 </script>
 
 <div class="topbar flex items-center justify-between">
@@ -10,6 +19,9 @@
     <BackButton color="#FFFFFF" size="24" />
   {/if}
   <span class="title">{title}</span>
+  {#if showLogout}
+    <button on:click={handleLogout} class="logout-button">Cerrar Sesión</button>
+  {/if}
 </div>
 
 <style>
@@ -30,5 +42,14 @@
     margin-right: auto;
     font-size: 18px;
     font-weight: bold;
+  }
+
+  .logout-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: auto;
   }
 </style>

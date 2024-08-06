@@ -2,16 +2,20 @@
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
   import { navigate } from 'svelte-routing';
+  import { saveToken, saveUser } from '../auth'; // Importa las funciones saveToken y saveUser
+  import { loginProfessional } from '../repository/professionalRepository';
 
   let email = '';
   let password = '';
 
-  const handleLogin = () => {
-    // Lógica de inicio de sesión
-    if (email === 'ly@gmail.com') {
-      navigate('/professional-home');
-    } else {
-      alert('Credenciales incorrectas');
+  const handleLogin = async () => {
+    try {
+      const response = await loginProfessional({ email, password });
+      saveToken(response.token); // Guarda el token
+      saveUser(response.user);   // Guarda el usuario
+      navigate('/professional-home');    // Navega a la página de inicio del profesional
+    } catch (error) {
+      alert(error.message);
     }
   };
 </script>

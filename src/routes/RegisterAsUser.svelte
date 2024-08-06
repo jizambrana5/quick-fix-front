@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  import { navigate } from 'svelte-routing'; // Importa la función navigate
   import { registerUser } from '../repository/userRepository';  // Asegúrate de tener esta función en tu repositorio de usuarios
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
@@ -11,10 +12,15 @@
   let last_name = '';
   let phone = '';
   let address = '';
+  let successMessage = '';
+  let errorMessage = '';
 
   const dispatch = createEventDispatcher();
 
   const handleSubmit = async () => {
+    successMessage = '';
+    errorMessage = '';
+
     try {
       const response = await registerUser({
         username,
@@ -26,9 +32,16 @@
         address
       });
       console.log('User registered successfully:', response);
+      successMessage = 'Registro exitoso. Redirigiendo...';
       dispatch('success', response);
+
+      // Redirige a la raíz después de 2 segundos
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
     } catch (error) {
       console.error('Error registering user:', error);
+      errorMessage = 'Error registrando usuario: ' + error.message;
       dispatch('error', error.message);
     }
   };
@@ -38,6 +51,11 @@
 <main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 6rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Registro de Usuario</h1>
+    {#if successMessage}
+      <div class="mb-4 text-green-700">{successMessage}</div>
+    {:else if errorMessage}
+      <div class="mb-4 text-red-700">{errorMessage}</div>
+    {/if}
     <form on:submit|preventDefault={handleSubmit} class="flex flex-col">
       <div class="mb-4">
         <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
@@ -72,3 +90,16 @@
   </div>
 </main>
 <Footer />
+
+<style>
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrar verticalmente */
+    align-items: center;
+    padding-top: 6rem;
+    padding-bottom: 70px;
+    overflow-y: auto;
+  }
+</style>

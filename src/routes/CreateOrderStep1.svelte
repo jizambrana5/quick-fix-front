@@ -39,7 +39,7 @@
     onMount(loadLocations);
 </script>
 
-<TopBar backButton={true} />
+<TopBar backButton={true} showLogout={true} />
 <main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 6rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Crear Orden - Paso 1</h1>

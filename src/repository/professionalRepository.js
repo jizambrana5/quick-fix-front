@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from '../auth';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
@@ -15,28 +16,29 @@ export const registerProfessional = async (professionalData) => {
   }
 };
 
-//Mock la función loginProfessional
+// Función para iniciar sesión de un usuario
 export const loginProfessional = async (loginData) => {
-  // Simulación de respuesta de éxito
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        data: {
-          message: 'Login successful',
-          professional: {
-            email: loginData.email,
-          },
-        },
-      });
-    }, 1000); // Simula un retraso de 1 segundo
-  });
-
-  // return Promise.reject(new Error('Mock error'));
+  try {
+    const response = await axios.post(`${API_BASE_URL}/professional/login`, loginData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response ? error.response.data.error : error.message);
+  }
 };
+
 
 export const fetchProfessional = async (professionalId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/professional/${professionalId}`);
+    const token = getToken();
+    const response = await axios.get(`${API_BASE_URL}/professional/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error fetching professional details');
@@ -45,7 +47,12 @@ export const fetchProfessional = async (professionalId) => {
 
 export const fetchProfessionalOrders = async (professionalId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/order/professional/${professionalId}`);
+    const token = getToken();
+    const response = await axios.get(`${API_BASE_URL}/order/professional/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error fetching professional orders');
