@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { navigate } from 'svelte-routing';
+  import { getUser } from '../auth';
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
   import { fetchProfessionalsByLocationAndProfession, fetchOrdersByProfessionalAndDate, createOrder } from '../repository/orderRepository';
@@ -10,7 +11,7 @@
 
   let professionals = [];
   let selectedProfessional = '';
-  let selectedDate = null;
+  let selectedDate = new Date(); // Inicializa con la fecha actual
   let selectedTime = '';
   let description = '';
   let availableTimes = [];
@@ -18,6 +19,7 @@
   let loadingTimes = false;
   let error = '';
   let successMessage = '';
+  let noProfessionalsMessage = '';
 
   let department, district, address, profession;
 
@@ -31,9 +33,12 @@
     try {
       const professionalsResponse = await fetchProfessionalsByLocationAndProfession(department, district, profession);
       professionals = Array.isArray(professionalsResponse) ? professionalsResponse : [];
+      if (professionals.length === 0) {
+        noProfessionalsMessage = `No tenemos ${profession} en la zona por el momento.`;
+      }
       loadingProfessionals = false;
     } catch (err) {
-      error = err.message;
+      error = 'Error fetching professionals';
       professionals = [];
       loadingProfessionals = false;
     }
@@ -62,7 +67,7 @@
         }
         loadingTimes = false;
       } catch (err) {
-        error = err.message;
+        error = 'Error fetching available times';
         availableTimes = [];
         loadingTimes = false;
       }
@@ -71,14 +76,13 @@
 
   const handleSubmit = async () => {
     try {
-      // Formatear el campo schedule_to en el formato correcto
       const year = selectedDate.getFullYear();
       const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Los meses son 0 indexados
       const day = String(selectedDate.getDate()).padStart(2, '0');
       const scheduleTo = `${year}-${month}-${day} ${selectedTime}`;
 
       await createOrder({
-        user_id: 1, // Mockeado
+        user_id: getUser().id,
         professional_id: selectedProfessional,
         schedule_to: scheduleTo,
         address,
@@ -94,12 +98,13 @@
         navigate('/user-home');
       }, 3000);
     } catch (err) {
-      error = err.message;
+      error = 'Error creating order';
     }
   };
 </script>
 
-<TopBar backButton={true} />
+<TopBar backButton={true} showLogout={true} />
+
 <main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 6rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Crear Orden - Paso 2</h1>
@@ -107,11 +112,13 @@
       <p>Cargando profesionales...</p>
     {:else if error}
       <p class="text-red-500">{error}</p>
+    {:else if noProfessionalsMessage}
+      <p class="text-red-500">{noProfessionalsMessage}</p>
     {:else}
       <div class="flex flex-col">
         <div class="mb-4">
-          <label for="date" class="block text-sm font-medium text-gray-700">Fecha</label>
-          <Flatpickr bind:value={selectedDate} options={{ dateFormat: "Y-m-d" }} onChange={(selectedDates) => handleDateChange(selectedDates[0])} />
+          <label for="date" class="block text-sm font-medium text-gray-700">Selecciona fecha:</label>
+          <Flatpickr bind:value={selectedDate} options={{ dateFormat: "Y-m-d", defaultDate: new Date() }} onChange={(selectedDates) => handleDateChange(selectedDates[0])} />
         </div>
         {#if selectedDate && professionals.length > 0}
           <div class="mb-4">

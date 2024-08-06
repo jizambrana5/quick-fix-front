@@ -6,7 +6,9 @@
     import { Link } from 'svelte-routing';
     import OrderStatus from '../components/OrderStatus.svelte';
     import { translateOrderStatus } from '../utils/statusMapping';
+    import { getUser } from '../auth'; // Importar la función getUser
   
+    let user = getUser();
     let professional = {};
     let orders = [];
     let loading = true;
@@ -14,8 +16,8 @@
   
     onMount(async () => {
       try {
-        professional = await fetchProfessional(1); // ID de profesional mockeado
-        orders = await fetchProfessionalOrders(1); // ID de profesional mockeado
+        professional = await fetchProfessional(user.id); 
+        orders = await fetchProfessionalOrders(user.id); 
         loading = false;
       } catch (err) {
         error = err.message;
@@ -34,7 +36,7 @@
     };
   </script>
   
-  <TopBar backButton={true} />
+  <TopBar backButton={true} showLogout={true}/>
   
   <main class="flex flex-col items-center justify-start flex-1 px-4 pt-24" style="padding-top: 6rem;">
     {#if loading}
@@ -53,9 +55,11 @@
           <p><strong>Email:</strong> {professional.email}</p>
           <p><strong>Teléfono:</strong> {professional.phone}</p>
           <p><strong>Dirección:</strong> {professional.address}</p>
+          <p><strong>Distrito:</strong> {professional.location.district}</p>
+          <p><strong>Departamento:</strong> {professional.location.department}</p>
           <p><strong>Profesión:</strong> {professional.profession}</p>
           <p><strong>Matrícula:</strong> {professional.registration_number}</p>
-        </div>
+         </div>
   
         <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md mb-4">
           <div class="flex justify-between items-center">

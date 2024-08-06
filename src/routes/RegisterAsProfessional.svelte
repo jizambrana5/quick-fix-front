@@ -27,19 +27,24 @@
   let errorMessage = '';
 
   const dispatch = createEventDispatcher();
+  let locations = {}; // Definir locations globalmente
 
   onMount(async () => {
     try {
-      const locations = await fetchLocations();
+      locations = await fetchLocations(); // Asignar a la variable global
       departments = Object.keys(locations);
-      districts = locations[departments[0]] || [];
+      // Inicializar con el primer departamento y sus distritos
+      if (departments.length > 0) {
+        department = departments[0];
+        districts = locations[department] || [];
+      }
     } catch (error) {
       console.error('Error loading locations:', error);
     }
   });
 
-  const handleDepartmentChange = (newDepartment) => {
-    department = newDepartment;
+  const handleDepartmentChange = (event) => {
+    department = event.detail;
     district = '';
     districts = locations[department] || [];
   };
@@ -75,8 +80,8 @@
   };
 </script>
 
-<TopBar title="Registro de Profesional" backButton={true} />
-<main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 35rem;">
+<TopBar backButton={true} />
+<main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 25rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Registro de Profesional</h1>
     <form on:submit|preventDefault={handleSubmit} class="flex flex-col">

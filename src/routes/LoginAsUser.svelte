@@ -2,16 +2,20 @@
   import TopBar from '../components/TopBar.svelte';
   import Footer from '../components/Footer.svelte';
   import { navigate } from 'svelte-routing';
+  import { saveToken, saveUser } from '../auth'; // Importa las funciones saveToken y saveUser
+  import { loginUser } from '../repository/userRepository'; // Importa la función de login
 
   let email = '';
   let password = '';
 
-  const handleLogin = () => {
-    // Lógica de inicio de sesión
-    if (email === 'jose@gmail.com') {
-      navigate('/user-home');
-    } else {
-      alert('Credenciales incorrectas');
+  const handleLogin = async () => {
+    try {
+      const response = await loginUser({ email, password });
+      saveToken(response.token); // Guarda el token
+      saveUser(response.user);   // Guarda el usuario
+      navigate('/user-home');    // Navega a la página de inicio del usuario
+    } catch (error) {
+      alert(error.message);
     }
   };
 </script>

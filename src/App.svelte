@@ -1,6 +1,7 @@
 <script>
   import { Router, Route } from 'svelte-routing';
   import routes from './routes';
+  import ProtectedRoute from './components/ProtectedRoute.svelte';
   import './styles/tailwind.css'; // Importar estilos de Tailwind CSS
   import './styles/global.css';
 

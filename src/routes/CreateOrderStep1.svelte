@@ -1,45 +1,48 @@
 <script>
-    import { navigate } from 'svelte-routing';
-    import { onMount } from 'svelte'; // Importar onMount desde svelte
-    import TopBar from '../components/TopBar.svelte';
-    import Footer from '../components/Footer.svelte';
-    import CustomSelect from '../components/CustomSelect.svelte';
-    import { fetchLocations } from '../repository/locationRepository';
-    import { fetchProfessionalsByLocationAndProfession } from '../repository/orderRepository';
+  import { navigate } from 'svelte-routing';
+  import { onMount } from 'svelte';
+  import TopBar from '../components/TopBar.svelte';
+  import Footer from '../components/Footer.svelte';
+  import CustomSelect from '../components/CustomSelect.svelte';
+  import { fetchLocations } from '../repository/locationRepository';
+  import { fetchProfessionalsByLocationAndProfession } from '../repository/orderRepository';
 
-    let departments = [];
-    let districts = [];
-    let department = '';
-    let district = '';
-    let address = '';
-    let profession = '';
+  let departments = [];
+  let districts = [];
+  let department = '';
+  let district = '';
+  let address = '';
+  let profession = '';
 
-    let professions = ["plomero", "electricista", "gasista"]; // Profesiones en minúsculas
+  let professions = ["plomero", "electricista", "gasista"];
 
-    const loadLocations = async () => {
-      try {
-        const locations = await fetchLocations();
-        departments = Object.keys(locations);
-        districts = locations[departments[0]] || [];
-      } catch (error) {
-        console.error('Error loading locations:', error);
+  let locations = {}; // Variable global para almacenar ubicaciones
+
+  onMount(async () => {
+    try {
+      locations = await fetchLocations();
+      departments = Object.keys(locations);
+      if (departments.length > 0) {
+        department = departments[0];
+        districts = locations[department] || [];
       }
-    };
+    } catch (error) {
+      console.error('Error loading locations:', error);
+    }
+  });
 
-    const handleDepartmentChange = (newDepartment) => {
-      department = newDepartment;
-      district = '';
-      districts = locations[department] || [];
-    };
+  const handleDepartmentChange = (event) => {
+    department = event.detail;
+    district = '';
+    districts = locations[department] || [];
+  };
 
-    const handleNext = () => {
-      navigate(`/create-order-step2?department=${department}&district=${district}&address=${address}&profession=${profession}`);
-    };
-
-    onMount(loadLocations);
+  const handleNext = () => {
+    navigate(`/create-order-step2?department=${department}&district=${district}&address=${address}&profession=${profession}`);
+  };
 </script>
 
-<TopBar backButton={true} />
+<TopBar backButton={true} showLogout={true} />
 <main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 6rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Crear Orden - Paso 1</h1>
@@ -80,7 +83,6 @@
 <Footer />
 
 <style>
-  /* Estilo personalizado para el contenedor principal */
   main {
     flex: 1;
     display: flex;
