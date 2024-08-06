@@ -33,15 +33,14 @@ export const fetchOrder = async (orderId) => {
 
 export const fetchProfessionalsByLocationAndProfession = async (department, district, profession) => {
   try {
-    const token = getToken();
     const response = await axios.get(`${API_BASE_URL}/professionals/${department}/${district}/${profession}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${getToken()}`
       }
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching professionals');
+    throw new Error(error.response ? error.response.data : 'Error fetching professionals');
   }
 };
 

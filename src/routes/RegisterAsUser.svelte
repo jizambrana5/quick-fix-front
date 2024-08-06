@@ -48,7 +48,7 @@
 </script>
 
 <TopBar backButton={true} />
-<main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 6rem;">
+<main class="flex flex-col items-center justify-center flex-1 px-4 pt-24" style="padding-top: 10rem;">
   <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-4 text-green-700">Registro de Usuario</h1>
     {#if successMessage}

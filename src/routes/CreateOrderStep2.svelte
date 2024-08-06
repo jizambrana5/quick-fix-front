@@ -8,11 +8,10 @@
   import Notification from '../components/Notification.svelte';
   import Flatpickr from 'svelte-flatpickr';
   import 'flatpickr/dist/flatpickr.css';
-    
 
   let professionals = [];
   let selectedProfessional = '';
-  let selectedDate = null;
+  let selectedDate = new Date(); // Inicializa con la fecha actual
   let selectedTime = '';
   let description = '';
   let availableTimes = [];
@@ -20,6 +19,7 @@
   let loadingTimes = false;
   let error = '';
   let successMessage = '';
+  let noProfessionalsMessage = '';
 
   let department, district, address, profession;
 
@@ -33,9 +33,12 @@
     try {
       const professionalsResponse = await fetchProfessionalsByLocationAndProfession(department, district, profession);
       professionals = Array.isArray(professionalsResponse) ? professionalsResponse : [];
+      if (professionals.length === 0) {
+        noProfessionalsMessage = `No tenemos ${profession} en la zona por el momento.`;
+      }
       loadingProfessionals = false;
     } catch (err) {
-      error = err.message;
+      error = 'Error fetching professionals';
       professionals = [];
       loadingProfessionals = false;
     }
@@ -64,7 +67,7 @@
         }
         loadingTimes = false;
       } catch (err) {
-        error = err.message;
+        error = 'Error fetching available times';
         availableTimes = [];
         loadingTimes = false;
       }
@@ -73,7 +76,6 @@
 
   const handleSubmit = async () => {
     try {
-      // Formatear el campo schedule_to en el formato correcto
       const year = selectedDate.getFullYear();
       const month = String(selectedDate.getMonth() + 1).padStart(2, '0'); // Los meses son 0 indexados
       const day = String(selectedDate.getDate()).padStart(2, '0');
@@ -96,7 +98,7 @@
         navigate('/user-home');
       }, 3000);
     } catch (err) {
-      error = err.message;
+      error = 'Error creating order';
     }
   };
 </script>
@@ -110,11 +112,13 @@
       <p>Cargando profesionales...</p>
     {:else if error}
       <p class="text-red-500">{error}</p>
+    {:else if noProfessionalsMessage}
+      <p class="text-red-500">{noProfessionalsMessage}</p>
     {:else}
       <div class="flex flex-col">
         <div class="mb-4">
-          <label for="date" class="block text-sm font-medium text-gray-700">Fecha</label>
-          <Flatpickr bind:value={selectedDate} options={{ dateFormat: "Y-m-d" }} onChange={(selectedDates) => handleDateChange(selectedDates[0])} />
+          <label for="date" class="block text-sm font-medium text-gray-700">Selecciona fecha:</label>
+          <Flatpickr bind:value={selectedDate} options={{ dateFormat: "Y-m-d", defaultDate: new Date() }} onChange={(selectedDates) => handleDateChange(selectedDates[0])} />
         </div>
         {#if selectedDate && professionals.length > 0}
           <div class="mb-4">

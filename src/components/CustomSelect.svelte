@@ -1,14 +1,18 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
   export let options = [];
   export let bindValue = '';
   export let label = '';
   export let placeholder = 'Selecciona una opción';
 
   let open = false;
+  const dispatch = createEventDispatcher();
 
   const selectOption = (option) => {
     bindValue = option;
     open = false;
+    dispatch('change', option); // Emitir evento change cuando se seleccione una opción
   };
 </script>
 

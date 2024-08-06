@@ -9,7 +9,7 @@
 
   function handleLogout() {
     localStorage.removeItem('authToken');
-    navigate('/login', { replace: true });
+    navigate('/', { replace: true });
     location.reload(); // Recargar la página para asegurarnos de que el estado se actualice
   }
 </script>

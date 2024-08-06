@@ -12,7 +12,7 @@
     try {
       const response = await loginProfessional({ email, password });
       saveToken(response.token); // Guarda el token
-      saveUser(response.user);   // Guarda el usuario
+      saveUser(response.professional);   // Guarda el usuario
       navigate('/professional-home');    // Navega a la página de inicio del profesional
     } catch (error) {
       alert(error.message);
