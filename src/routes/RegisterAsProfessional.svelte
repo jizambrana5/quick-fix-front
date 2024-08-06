@@ -21,7 +21,7 @@
 
   let departments = [];
   let districts = [];
-  const professions = ["Plomero", "Electricista", "Gasista"];
+  const professions = ["plomero", "electricista", "gasista"];
 
   let successMessage = '';
   let errorMessage = '';
