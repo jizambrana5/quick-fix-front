@@ -1,131 +1,164 @@
-import axios from 'axios';
-import { getToken } from '../auth';
+import axios from "axios";
+import { getToken } from "../auth";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
 export const fetchUserOrders = async (userId) => {
   try {
     const token = getToken();
-    const response = await axios.get(`${API_BASE_URL}/order/user/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+    const response = await axiosInstance.get(
+      `${API_BASE_URL}/order/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching user orders');
+    throw new Error(
+      error.response?.data?.message || "Error fetching user orders"
+    );
   }
 };
 
 export const fetchOrder = async (orderId) => {
   try {
     const token = getToken();
-    const response = await axios.get(`${API_BASE_URL}/order/${orderId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+    const response = await axiosInstance.get(
+      `${API_BASE_URL}/order/${orderId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching order details');
+    throw new Error(
+      error.response?.data?.message || "Error fetching order details"
+    );
   }
 };
 
-export const fetchProfessionalsByLocationAndProfession = async (department, district, profession) => {
+export const fetchProfessionalsByLocationAndProfession = async (
+  department,
+  district,
+  profession
+) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/professionals/${department}/${district}/${profession}`, {
-      headers: {
-        'Authorization': `Bearer ${getToken()}`
+    const response = await axiosInstance.get(
+      `${API_BASE_URL}/professionals/${department}/${district}/${profession}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
       }
-    });
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response ? error.response.data : 'Error fetching professionals');
+    throw new Error(
+      error.response ? error.response.data : "Error fetching professionals"
+    );
   }
 };
 
-export const fetchOrdersByProfessionalAndDate = async (professionalId, date) => {
+export const fetchOrdersByProfessionalAndDate = async (
+  professionalId,
+  date
+) => {
   try {
     const token = getToken();
-    const formattedDate = new Date(date).toISOString().split('T')[0]; // Asegurarse de que la fecha esté en formato YYYY-MM-DD
-    const response = await axios.get(`${API_BASE_URL}/order/professional/${professionalId}/day/${formattedDate}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
+    const formattedDate = new Date(date).toISOString().split("T")[0]; // Asegurarse de que la fecha esté en formato YYYY-MM-DD
+    const response = await axiosInstance.get(
+      `${API_BASE_URL}/order/professional/${professionalId}/day/${formattedDate}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     return response.data || []; // Devolver un array vacío si la respuesta es null
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching orders for professional and date');
+    throw new Error(
+      error.response?.data?.message ||
+        "Error fetching orders for professional and date"
+    );
   }
 };
 
 export const createOrder = async (orderData) => {
   try {
     const token = getToken();
-    const response = await axios.post(`${API_BASE_URL}/order`, orderData, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+    const response = await axiosInstance.post(
+      `${API_BASE_URL}/order`,
+      orderData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error creating order');
+    throw new Error(error.response?.data?.message || "Error creating order");
   }
 };
 
 export const acceptOrder = async (orderId) => {
   try {
     const token = getToken();
-    const response = await axios.put(
+    const response = await axiosInstance.put(
       `${API_BASE_URL}/order/${orderId}/accept`,
       {}, // Este es el cuerpo de la solicitud, en este caso vacío
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error accepting order');
+    throw new Error(error.response?.data?.message || "Error accepting order");
   }
 };
 
 export const cancelOrder = async (orderId) => {
   try {
     const token = getToken();
-    const response = await axios.put(
+    const response = await axiosInstance.put(
       `${API_BASE_URL}/order/${orderId}/cancel`,
       {}, // Este es el cuerpo de la solicitud, en este caso vacío
       {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error canceling order');
+    throw new Error(error.response?.data?.message || "Error canceling order");
   }
 };
 
 export const completeOrder = async (orderId) => {
   try {
     const token = getToken();
-    const response = await axios.put(
-      `${API_BASE_URL}/order/${orderId}/complete`, 
-      {}, 
+    const response = await axiosInstance.put(
+      `${API_BASE_URL}/order/${orderId}/complete`,
+      {},
       {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error completing order');
+    throw new Error(error.response?.data?.message || "Error completing order");
   }
 };
