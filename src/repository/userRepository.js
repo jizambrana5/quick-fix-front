@@ -7,12 +7,16 @@ const API_BASE_URL =
 // Función para registrar un usuario
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/user`, userData, {
-      headers: {
-        "Content-Type": "application/json",
-        Origin: "http://localhost:3000",
-      },
-    });
+    const response = await axiosInstance.post(
+      `${API_BASE_URL}/user`,
+      userData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Origin: "http://localhost:3000",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
@@ -23,11 +27,14 @@ export const registerUser = async (userData) => {
 export const fetchUserOrders = async (userId) => {
   try {
     const token = getToken();
-    const response = await axios.get(`${API_BASE_URL}/order/user/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.get(
+      `${API_BASE_URL}/order/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response ? error.response.data : error.message);
@@ -38,7 +45,7 @@ export const fetchUserOrders = async (userId) => {
 export const fetchUser = async (userId) => {
   try {
     const token = getToken();
-    const response = await axios.get(`${API_BASE_URL}/user/${userId}`, {
+    const response = await axiosInstance.get(`${API_BASE_URL}/user/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,11 +64,15 @@ export const loginUser = async (loginData) => {
     console.log("Sending login request to:", `${API_BASE_URL}/user/login`);
     console.log("Login data:", loginData);
 
-    const response = await axios.post(`${API_BASE_URL}/user/login`, loginData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axiosInstance.post(
+      `${API_BASE_URL}/user/login`,
+      loginData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     console.log("Login response:", response.data);
     return response.data;
