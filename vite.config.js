@@ -1,6 +1,6 @@
 // vite.config.js
-import { defineConfig } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
+import { defineConfig } from "vite";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
   plugins: [svelte()],
@@ -8,21 +8,22 @@ export default defineConfig({
     port: 3000,
     open: true,
     proxy: {
-      '/api': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:8080',
+      "/api": {
+        target: process.env.VITE_API_BASE_URL || "https://35.193.174.196",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false, // Ignora certificados SSL inválidos
+        rewrite: (path) => path.replace(/^\/api/, ""), // Reescribe la ruta
       },
     },
   },
   resolve: {
     alias: {
-      '@components': '/src/components',
-      '@styles': '/src/styles',
-      '@routes': '/src/routes'
+      "@components": "/src/components",
+      "@styles": "/src/styles",
+      "@routes": "/src/routes",
     },
   },
   build: {
-    outDir: 'build',  // Asegúrate de que esto coincida con la ruta de salida
+    outDir: "build",
   },
 });
