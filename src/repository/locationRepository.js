@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://35.193.174.196";
+  import.meta.env.VITE_API_BASE_URL || "https://api.quick-fix-front.pages.dev";
 
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
