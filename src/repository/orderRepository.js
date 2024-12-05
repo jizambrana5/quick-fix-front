@@ -1,8 +1,6 @@
 import axios from "axios";
 import { getToken } from "../auth";
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
+import { axiosInstance, API_BASE_URL } from "./locationRepository";
 
 export const fetchUserOrders = async (userId) => {
   try {
