@@ -9,11 +9,9 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api": {
-        target:
-          process.env.VITE_API_BASE_URL ||
-          "https://api.quick-fix-front.pages.dev",
+        target: process.env.VITE_API_BASE_URL || "http://34.72.103.154:8080",
         changeOrigin: true,
-        secure: true,
+        secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
