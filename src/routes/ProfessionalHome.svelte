@@ -58,7 +58,9 @@
           <p><strong>Distrito:</strong> {professional.location.district}</p>
           <p><strong>Departamento:</strong> {professional.location.department}</p>
           <p><strong>Profesión:</strong> {professional.profession}</p>
+          <!--
           <p><strong>Matrícula:</strong> {professional.registration_number}</p>
+          -->
          </div>
   
         <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md mb-4">

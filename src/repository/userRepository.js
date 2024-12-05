@@ -1,16 +1,17 @@
-import axios from 'axios';
-import { getToken } from '../auth';
+import axios from "axios";
+import { getToken } from "../auth";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080";
 
 // Función para registrar un usuario
 export const registerUser = async (userData) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/user`, userData, {
       headers: {
-        'Content-Type': 'application/json',
-        'Origin': 'http://localhost:3000'
-      }
+        "Content-Type": "application/json",
+        Origin: "http://localhost:3000",
+      },
     });
     return response.data;
   } catch (error) {
@@ -24,8 +25,8 @@ export const fetchUserOrders = async (userId) => {
     const token = getToken();
     const response = await axios.get(`${API_BASE_URL}/order/user/${userId}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (error) {
@@ -39,25 +40,33 @@ export const fetchUser = async (userId) => {
     const token = getToken();
     const response = await axios.get(`${API_BASE_URL}/user/${userId}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Error fetching user details');
+    throw new Error(
+      error.response?.data?.message || "Error fetching user details"
+    );
   }
 };
 
 // Función para iniciar sesión de un usuario
 export const loginUser = async (loginData) => {
   try {
+    console.log("Sending login request to:", `${API_BASE_URL}/user/login`);
+    console.log("Login data:", loginData);
+
     const response = await axios.post(`${API_BASE_URL}/user/login`, loginData, {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     });
+
+    console.log("Login response:", response.data);
     return response.data;
   } catch (error) {
+    console.error("Login error:", error.response || error.message);
     throw new Error(error.response ? error.response.data.error : error.message);
   }
 };
