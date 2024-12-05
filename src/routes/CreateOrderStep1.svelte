@@ -14,7 +14,7 @@
   let address = '';
   let profession = '';
 
-  let professions = ["plomero", "electricista", "gasista"];
+  //let professions = ["plomero", "electricista", "gasista"];
 
   let locations = {}; // Variable global para almacenar ubicaciones
 
@@ -38,7 +38,7 @@
   };
 
   const handleNext = () => {
-    navigate(`/create-order-step2?department=${department}&district=${district}&address=${address}&profession=${profession}`);
+    navigate(`/create-order-step2?department=${department}&district=${district}&address=${address}&profession=${'limpieza'}`);
   };
 </script>
 
@@ -68,6 +68,7 @@
         <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
         <input type="text" id="address" bind:value={address} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm" />
       </div>
+      <!--
       <div class="mb-4">
         <CustomSelect
           label="Profesión"
@@ -76,6 +77,8 @@
           placeholder="Selecciona una profesión"
         />
       </div>
+      -->
+      
       <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white font-medium rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Siguiente</button>
     </form>
   </div>

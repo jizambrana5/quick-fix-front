@@ -21,7 +21,8 @@
 
   let departments = [];
   let districts = [];
-  const professions = ["plomero", "electricista", "gasista"];
+  //const professions = ["plomero", "electricista", "gasista"];
+  const professions = ["limpieza"];
 
   let successMessage = '';
   let errorMessage = '';
@@ -59,12 +60,12 @@
         address,
         email,
         password,
-        profession,
+        profession: "limpieza",
         location: {
           department,
           district
         },
-        registration_number
+        registration_number: "1234567890"
       });
       successMessage = 'Professional registered successfully';
       console.log('Professional registered successfully:', response);
@@ -105,6 +106,7 @@
         <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
         <input type="email" id="email" bind:value={email} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
       </div>
+      <!--
       <div class="mb-4">
         <CustomSelect
           label="Profesión"
@@ -117,6 +119,7 @@
         <label for="registration_number" class="block text-sm font-medium text-gray-700">Matrícula</label>
         <input type="text" id="registration_number" bind:value={registration_number} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
       </div>
+      -->
       <div class="mb-4">
         <label for="address" class="block text-sm font-medium text-gray-700">Dirección</label>
         <input type="text" id="address" bind:value={address} required class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"/>
